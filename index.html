@@ -67,11 +67,11 @@
 
                     <div class="input-group">
                         <!-- Search Input Box -->
-                        <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+                        <input type="text" class="form-control" placeholder="City Name" id="cityInput" />
                         
                         <div class="input-group-append">
                             <!-- Search Button -->
-                            <button class="btn btn-success" type="button">Search</button>
+                            <button class="btn btn-success" type="button" id="addBtn">Add City</button>
                         </div>
 
                     </div>
@@ -85,7 +85,7 @@
                         <li class="list-group-item">Morbi leo risus</li>
                         <li class="list-group-item">Porta ac consectetur ac</li>
                         <li class="list-group-item">Vestibulum at eros</li>
-                      </ul>
+                    </ul>
                       
 
                 </article>
@@ -111,6 +111,18 @@
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="./Assets/js/myScript.js"></script>
+
+    <script>
+        $("#addBtn").click(function(){
+            console.log(this);
+            let $listItem = $("<li>");
+            $listItem.text($("#cityInput").val());
+            $listItem.addClass("list-group-item");
+            $("#citiesList").append($listItem);
+
+
+        });
+    </script>
 
 </body>
 
