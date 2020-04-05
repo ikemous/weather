@@ -19,13 +19,13 @@
 
     <style>
 
-        .container{
+        /* .container{
             margin-left: 50px;
             margin-right: 50px;
-        }
+        } */
 
         ul{
-            width: 100%;
+            width: 90%;
         }
 
     </style>
@@ -55,10 +55,6 @@
         <!-- big row to hold all items -->
         <section class="row">
 
-
-
-        </section>
-
             <!-- col 4? Hold the search bar hold main city buttons-->
             <section class="col-sm-4">
                 
@@ -82,9 +78,6 @@
                 <article class="row">
 
                     <ul class="list-group" id="citiesList">
-                        <li class="list-group-item">Morbi leo risus</li>
-                        <li class="list-group-item">Porta ac consectetur ac</li>
-                        <li class="list-group-item">Vestibulum at eros</li>
                     </ul>
                       
 
@@ -96,6 +89,21 @@
             <!-- col 8? hold all weather information for a city -->
             <section class="col-sm-8">
 
+                <div class="card">
+                    
+                    <div class="card-body">
+                        
+                      <h4 class="card-title" id="cityHeader"> City </h4>
+                      <p class="card-text" id="tempText"> Temp: </p>
+                      <p class="card-text" id="humidityText"> Humidity: </p>
+                      <p class="card-text" id="windSpeedText"> WindSpeed: </p>
+                      <p class="card-text" id="indexText"> Index: </p>
+
+                    </div>
+
+                  </div>
+                  
+
                 <!-- card div for the the city weather informaion -->
                     <!-- city and date -->
                     <!-- Temp in F -->
@@ -105,6 +113,10 @@
                     <!-- api.openweathermap.org/data/2.5/weather?id={city id}&appid={your api key} -->
                     <!--  -->
             </section>
+
+
+
+        </section>
     </main>
 
 
