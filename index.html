@@ -35,6 +35,15 @@
         .input-group{
             width: 75%;
         }
+        .forecast{
+            font-size: 14px;
+            /* padding: 20px; */
+            margin: 10px;
+        }
+        
+        .forecast h4{
+            font-size: 16px;
+        }
 
     </style>
 
@@ -213,10 +222,10 @@
                         let theDate = new Date(weatherDays[i].dt * 1000);
                         theDate = moment(theDate).format("MM/DD/YYYY");
                         console.log(theDate);
-
+                        
                         //create card div
                         let $newCard = $("<div>");
-                        $newCard.addClass("card  col forecast");
+                        $newCard.addClass("card  col-sm-2 forecast");
                         $("#forecastDiv").append($newCard);
                         
                         let $newCardBody = $("<div>");
@@ -224,13 +233,15 @@
                         $newCard.append($newCardBody);
 
                         let $cardheader = $("<h4>");
-                        $cardheader.text(theDate)
+                        $cardheader.text(theDate);
+                        $cardheader.addClass("row");
                         $newCardBody.append($cardheader);
 
                         
                         let dayIcon = "http://openweathermap.org/img/wn/" + weatherDays[i].weather[0].icon + ".png";
 
                         let $icon = $("<img>");
+                        $icon.addClass("row");
                         $icon.attr("src",dayIcon);
                         $newCardBody.append($icon);
 
@@ -239,10 +250,12 @@
 
                         
                         let $tempParagraph = $("<p>");
+                        $tempParagraph.addClass("row");
                         $tempParagraph.text("Temp: " + dayTemp + "°F");
                         $newCardBody.append($tempParagraph);
 
                         let $humidityParagraph = $("<p>");
+                        $humidityParagraph.addClass("row");
                         $humidityParagraph.text("Humidity: " + weatherDays[i].humidity);
                         $newCardBody.append($humidityParagraph);
                         
@@ -282,47 +295,8 @@
             });
 
         }
-
-        
-        // let uvURL = "http://api.openweathermap.org/data/2.5/uvi?appid=16da2c71dd8c2c76dfce15f0f75a5dea&lat=" + lat + "&lon=" + lon;
-
-        // //Grab UV for the main card
-        // $.ajax({
-        //     url: uvURL,
-        //     method: 'GET'
-        // }).then(function(uv){
-
-            // $("#indexText").text("UV Index: " + uv.value);
-            // let uvNum = Math.floor(uv.value);
-            // //UV index	Media graphic color	Risk of harm from unprotected Sun exposure, for the average adult
-            //     // 0 to 2	Green	"Low"
-            //     // 3 to 5	Yellow	"Moderate"
-            //     // 6 to 7	Orange	"High"
-            //     // 8 to 10	Red	"Very high"
-            // console.log(uvNum);
-            // switch(uvNum)
-            // {
-            //     case 0,1,2:
-            //         console.log("1");
-            //         break;
-            //     case 3,4,5:
-            //         console.log("2");
-            //         break;
-            //     case 6,7:
-            //         console.log("3");
-            //         break;
-            //     case 8:
-            //         console.log("4");
-            //         break;
-            //     default:
-            //         break;
-            // }
-
-        // });
         
         $("#citiesList").on("click", "li", function(){
-            console.log($(this).data("search"));
-            search = $(this).data("search");
             console.log(search);
             init();
         });
