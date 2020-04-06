@@ -111,6 +111,15 @@
                 </div>
 
                 
+                <h3>5 Day Forecast: </h3>
+
+                <article class="row" id="forecastDiv">
+
+                    
+
+                </article>
+
+                
                 <!-- </article> -->
                   
 
@@ -166,24 +175,88 @@
             //define coordinates
             let lon = weather.coord.lon;
             let lat = weather.coord.lat;
-
-            let uvURL = "http://api.openweathermap.org/data/2.5/uvi?appid=16da2c71dd8c2c76dfce15f0f75a5dea&lat=" + lat + "&lon=" + lon;
+            // let forecastURL  = "http://api.openweathermap.org/data/2.5/onecall?q=Bujumbura&appid=16da2c71dd8c2c76dfce15f0f75a5dea";
+            let forecastURL = "https://api.openweathermap.org/data/2.5/onecall?appid=16da2c71dd8c2c76dfce15f0f75a5dea&lat=" + lat + "&lon=" + lon;
 
             $.ajax({
-                url: uvURL,
+                url: forecastURL,
                 method: 'GET'
-            }).then(function(uv){
-                console.log(uv)
-                $("#indexText").text("UV Index: " + uv.value);
+            }).then(function(forecast){
 
-                let uvNum = Math.floor(uv.value);
+                console.log(forecast);
+
+                let weatherDays = forecast.daily;
+                console.log(weatherDays);
+
+                for(let i = 1; i <  6; i++)
+                {
+                    
+                    let theDate = new Date(weatherDays[i].dt * 1000);
+                    theDate = moment(theDate).format("MM/DD/YYYY");
+                    console.log(theDate);
+
+                    //create card div
+                    let $newCard = $("<div>");
+                    $newCard.addClass("card  col forecast");
+                    $("#forecastDiv").append($newCard);
+                    
+                    let $newCardBody = $("<div>");
+                    $newCardBody.addClass("card-body");
+                    $newCard.append($newCardBody);
+
+                    let $cardheader = $("<h4>");
+                    $cardheader.text(theDate)
+                    $newCardBody.append($cardheader);
+
+                    
+                    let dayIcon = "http://openweathermap.org/img/wn/" + weatherDays[i].weather[0].icon + ".png";
+
+                    let $icon = $("<img>");
+                    $icon.attr("src",dayIcon);
+                    $newCardBody.append($icon);
+
+                    let dayTemp = (weatherDays[i].temp.day- 273.15) * 9/5 + 32;
+                    dayTemp = dayTemp.toFixed(2);
+
+                    
+                    let $tempParagraph = $("<p>");
+                    $tempParagraph.text("Temp: " + dayTemp + "°F");
+                    $newCardBody.append($tempParagraph);
+
+                    let $humidityParagraph = $("<p>");
+                    $humidityParagraph.text("Humidity: " + weatherDays[i].humidity);
+                    $newCardBody.append($humidityParagraph);
+                    
+
+                }
+
+
+                /*
+                    <div class="card">
+                        
+                        <div class="card-body">
+
+                            <h4 class="card-title text-center" id="cityHeader"> City </h4>
+                            <p class="card-text" id="tempText"> Temp: </p>
+                            <p class="card-text" id="humidityText"> Humidity: </p>
+                            <p class="card-text" id="windSpeedText"> WindSpeed: </p>
+                            <p class="card-text" id="indexText"> Index: </p>
+
+                        </div>
+
+                    </div>
+
+                */
+
+                
+                $("#indexText").text("UV Index: " + forecast.current.uvi);
+                let uvNum = Math.floor(forecast.current.uvi);
 
                 //UV index	Media graphic color	Risk of harm from unprotected Sun exposure, for the average adult
                     // 0 to 2	Green	"Low"
                     // 3 to 5	Yellow	"Moderate"
                     // 6 to 7	Orange	"High"
                     // 8 to 10	Red	"Very high"
-
                 console.log(uvNum);
                 switch(uvNum)
                 {
@@ -200,34 +273,65 @@
                         console.log("4");
                         break;
                     default:
-                        console.log(uv.value);
-                        console.log("Default");
-
+                        break;
                 }
 
-            });
-
-
-
-
+            })
 
             //Assign Text To Card IDs
             $("#cityHeader").text(headerTitle);
             $("#tempText").text("Temp:  "  + temp + "°F");
             $("#humidityText").text("Humidity: " + weather.main.humidity);
             $("#windSpeedText").text("WindSpeed: " + weather.wind.speed);
-        })
+
+        });
+
+        
+        // let uvURL = "http://api.openweathermap.org/data/2.5/uvi?appid=16da2c71dd8c2c76dfce15f0f75a5dea&lat=" + lat + "&lon=" + lon;
+
+        // //Grab UV for the main card
+        // $.ajax({
+        //     url: uvURL,
+        //     method: 'GET'
+        // }).then(function(uv){
+
+            // $("#indexText").text("UV Index: " + uv.value);
+            // let uvNum = Math.floor(uv.value);
+            // //UV index	Media graphic color	Risk of harm from unprotected Sun exposure, for the average adult
+            //     // 0 to 2	Green	"Low"
+            //     // 3 to 5	Yellow	"Moderate"
+            //     // 6 to 7	Orange	"High"
+            //     // 8 to 10	Red	"Very high"
+            // console.log(uvNum);
+            // switch(uvNum)
+            // {
+            //     case 0,1,2:
+            //         console.log("1");
+            //         break;
+            //     case 3,4,5:
+            //         console.log("2");
+            //         break;
+            //     case 6,7:
+            //         console.log("3");
+            //         break;
+            //     case 8:
+            //         console.log("4");
+            //         break;
+            //     default:
+            //         break;
+            // }
+
+        // });
+        
 
 
         $("#addBtn").click(function(){
-            console.log(this);  
             let $listItem = $("<li>");
             $listItem.text($("#cityInput").val());
             $listItem.addClass("list-group-item");
             $("#citiesList").append($listItem);
-
-
         });
+
     </script>
 
 </body>
