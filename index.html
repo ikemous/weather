@@ -60,6 +60,11 @@
                 
                 <!-- Row for search bar -->
                 <article class="row">
+                    <h5>Search For City:</h5>
+                </article>  
+                
+                <!-- Row for search bar -->
+                <article class="row">
 
                     <div class="input-group">
                         <!-- Search Input Box -->
@@ -89,11 +94,13 @@
             <!-- col 8? hold all weather information for a city -->
             <section class="col-sm-8">
 
+                <!-- <article class="row"> -->
+
                 <div class="card">
                     
                     <div class="card-body">
-                        
-                      <h4 class="card-title" id="cityHeader"> City </h4>
+
+                      <h4 class="card-title text-center" id="cityHeader"> City </h4>
                       <p class="card-text" id="tempText"> Temp: </p>
                       <p class="card-text" id="humidityText"> Humidity: </p>
                       <p class="card-text" id="windSpeedText"> WindSpeed: </p>
@@ -101,7 +108,10 @@
 
                     </div>
 
-                  </div>
+                </div>
+
+                
+                <!-- </article> -->
                   
 
                 <!-- card div for the the city weather informaion -->
@@ -122,11 +132,95 @@
 
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    
     <script src="./Assets/js/myScript.js"></script>
 
     <script>
+
+        // api.openweathermap.org/data/2.5/weather?id={city id}&appid=16da2c71dd8c2c76dfce15f0f75a5dea
+        let currentDayURL = "https://api.openweathermap.org/data/2.5/weather?q=Bujumbura,Burundi&appid=16da2c71dd8c2c76dfce15f0f75a5dea";
+
+        //let currentDayUVURL = http://api.openweathermap.org/data/2.5/uvi?appid=16da2c71dd8c2c76dfce15f0f75a5dea&lat&q=Bujumbura,Burundi
+        // long 29.36
+        // lat -3.38
+        //http://api.openweathermap.org/data/2.5/uvi?appid=16da2c71dd8c2c76dfce15f0f75a5dea&lat=-3.38&lon=29.36
+
+        $.ajax({
+            url: currentDayURL,
+            method: 'GET'
+        }).then(function(weather){
+            console.log(weather);
+
+            // Set up the text for the main header
+            let townName = weather.name;
+            let townCountry = weather.sys.country;
+            let timeStamp = new Date(weather.dt * 1000);
+            timeStamp = moment(timeStamp).format("MM/DD/YYYY");
+            let headerTitle = townName + ", " + townCountry + " " + "(" + timeStamp + ")";
+
+            //Set up the Temp in F
+            let temp = (weather.main.temp - 273.15) * 9/5 + 32;
+            temp = temp.toFixed(2);
+
+            //define coordinates
+            let lon = weather.coord.lon;
+            let lat = weather.coord.lat;
+
+            let uvURL = "http://api.openweathermap.org/data/2.5/uvi?appid=16da2c71dd8c2c76dfce15f0f75a5dea&lat=" + lat + "&lon=" + lon;
+
+            $.ajax({
+                url: uvURL,
+                method: 'GET'
+            }).then(function(uv){
+                console.log(uv)
+                $("#indexText").text("UV Index: " + uv.value);
+
+                let uvNum = Math.floor(uv.value);
+
+                //UV index	Media graphic color	Risk of harm from unprotected Sun exposure, for the average adult
+                    // 0 to 2	Green	"Low"
+                    // 3 to 5	Yellow	"Moderate"
+                    // 6 to 7	Orange	"High"
+                    // 8 to 10	Red	"Very high"
+
+                console.log(uvNum);
+                switch(uvNum)
+                {
+                    case 0,1,2:
+                        console.log("1");
+                        break;
+                    case 3,4,5:
+                        console.log("2");
+                        break;
+                    case 6,7:
+                        console.log("3");
+                        break;
+                    case 8:
+                        console.log("4");
+                        break;
+                    default:
+                        console.log(uv.value);
+                        console.log("Default");
+
+                }
+
+            });
+
+
+
+
+
+            //Assign Text To Card IDs
+            $("#cityHeader").text(headerTitle);
+            $("#tempText").text("Temp:  "  + temp + "°F");
+            $("#humidityText").text("Humidity: " + weather.main.humidity);
+            $("#windSpeedText").text("WindSpeed: " + weather.wind.speed);
+        })
+
+
         $("#addBtn").click(function(){
-            console.log(this);
+            console.log(this);  
             let $listItem = $("<li>");
             $listItem.text($("#cityInput").val());
             $listItem.addClass("list-group-item");
