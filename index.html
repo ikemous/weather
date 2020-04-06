@@ -16,33 +16,45 @@
     <!-- Link CSS Style Sheet -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
     crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
 
     <style>
 
-        /* .container{
+        .weather{
             margin-left: 50px;
             margin-right: 50px;
-        } */
-
+        }
         ul{
             width: 90%;
         }
-
         .mainCard{
             width: 100%;
         }
-
         .input-group{
             width: 75%;
         }
-        .forecast{
+        .card{
             font-size: 14px;
             /* padding: 20px; */
-            margin: 10px;
+            margin: 3px;
+            line-height: 10px;
         }
-        
-        .forecast h4{
-            font-size: 16px;
+        .forecast .card-body{
+            padding: 0px;
+            font-size: 10px;
+        }
+        .forecast .card-body img{
+            height: 50px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .forecast .card-body p{
+            margin-bottom: 10px;
+        }
+        .forecast .card-body h4{
+            font-size: 12px;
+            margin-top: 2px;
+            font-weight: bolder;
         }
 
     </style>
@@ -67,13 +79,13 @@
     </header>
 
     <!-- container -->
-    <main class="container">
+    <main class="container-full weather">
 
         <!-- big row to hold all items -->
         <section class="row">
 
             <!-- col 4? Hold the search bar hold main city buttons-->
-            <section class="col-sm-4">
+            <section class="col-sm-3">
                 
                 <!-- Row for search bar -->
                 <article class="row">
@@ -89,7 +101,7 @@
                         
                         <div class="input-group-append">
                             <!-- Search Button -->
-                            <button class="btn btn-success" type="button" id="addBtn">Add City</button>
+                            <button class="btn btn-success" type="button" id="addBtn"><i class="fas fa-search"></i></button>
                         </div>
 
                     </div>
@@ -100,7 +112,8 @@
                 <article class="row">
 
                     <ul class="list-group" id="citiesList">
-
+                        <li class="list-group-item" data-search="Bujumbura">Bujumbura</li>
+                        <li class="list-group-item" data-search="London">London</li>
                     </ul>
                       
 
@@ -110,7 +123,7 @@
             </section>
                 
             <!-- col 8? hold all weather information for a city -->
-            <section class="col-sm-8">
+            <section class="col-sm-9">
 
                 <article class="row">
                 
@@ -136,23 +149,9 @@
 
                 <article class="row" id="forecastDiv">
 
-                    
-
                 </article>
 
-                  
-
-                <!-- card div for the the city weather informaion -->
-                    <!-- city and date -->
-                    <!-- Temp in F -->
-                    <!-- Humdity -->
-                    <!-- Windspeed -->
-                    <!-- Humidity index -->
-                    <!-- api.openweathermap.org/data/2.5/weather?id={city id}&appid={your api key} -->
-                    <!--  -->
             </section>
-
-
 
         </section>
     </main>
@@ -225,7 +224,7 @@
                         
                         //create card div
                         let $newCard = $("<div>");
-                        $newCard.addClass("card  col-sm-2 forecast");
+                        $newCard.addClass("card col-sm forecast");
                         $("#forecastDiv").append($newCard);
                         
                         let $newCardBody = $("<div>");
@@ -234,7 +233,7 @@
 
                         let $cardheader = $("<h4>");
                         $cardheader.text(theDate);
-                        $cardheader.addClass("row");
+                        $cardheader.addClass("lead");
                         $newCardBody.append($cardheader);
 
                         
@@ -247,19 +246,17 @@
 
                         let dayTemp = (weatherDays[i].temp.day- 273.15) * 9/5 + 32;
                         dayTemp = dayTemp.toFixed(2);
-
                         
                         let $tempParagraph = $("<p>");
-                        $tempParagraph.addClass("row");
+                        $tempParagraph.addClass("card-text");
                         $tempParagraph.text("Temp: " + dayTemp + "°F");
                         $newCardBody.append($tempParagraph);
 
                         let $humidityParagraph = $("<p>");
-                        $humidityParagraph.addClass("row");
+                        $humidityParagraph.addClass("card-text");
                         $humidityParagraph.text("Humidity: " + weatherDays[i].humidity);
                         $newCardBody.append($humidityParagraph);
                         
-
                     }
 
                     
@@ -297,9 +294,11 @@
         }
         
         $("#citiesList").on("click", "li", function(){
+            search = $(this).data("search");
             console.log(search);
             init();
         });
+
 
         $("#addBtn").click(function(){
             let $listItem = $("<li>");
