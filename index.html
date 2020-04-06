@@ -28,6 +28,14 @@
             width: 90%;
         }
 
+        .mainCard{
+            width: 100%;
+        }
+
+        .input-group{
+            width: 75%;
+        }
+
     </style>
 
 
@@ -83,6 +91,7 @@
                 <article class="row">
 
                     <ul class="list-group" id="citiesList">
+
                     </ul>
                       
 
@@ -94,21 +103,24 @@
             <!-- col 8? hold all weather information for a city -->
             <section class="col-sm-8">
 
-                <!-- <article class="row"> -->
+                <article class="row">
+                
+                    <div class="card mainCard">
+                        
+                        <div class="card-body">
 
-                <div class="card">
-                    
-                    <div class="card-body">
+                        <h4 class="card-title text-center" id="cityHeader"> City </h4>
+                        <p class="card-text" id="tempText"> Temp: </p>
+                        <p class="card-text" id="humidityText"> Humidity: </p>
+                        <p class="card-text" id="windSpeedText"> WindSpeed: </p>
+                        <p class="card-text" id="indexText"> Index: </p>
 
-                      <h4 class="card-title text-center" id="cityHeader"> City </h4>
-                      <p class="card-text" id="tempText"> Temp: </p>
-                      <p class="card-text" id="humidityText"> Humidity: </p>
-                      <p class="card-text" id="windSpeedText"> WindSpeed: </p>
-                      <p class="card-text" id="indexText"> Index: </p>
+                        </div>
 
                     </div>
-
-                </div>
+                    
+                
+                </article>
 
                 
                 <h3>5 Day Forecast: </h3>
@@ -119,8 +131,6 @@
 
                 </article>
 
-                
-                <!-- </article> -->
                   
 
                 <!-- card div for the the city weather informaion -->
@@ -147,144 +157,131 @@
 
     <script>
 
-        // api.openweathermap.org/data/2.5/weather?id={city id}&appid=16da2c71dd8c2c76dfce15f0f75a5dea
-        let currentDayURL = "https://api.openweathermap.org/data/2.5/weather?q=Bujumbura,Burundi&appid=16da2c71dd8c2c76dfce15f0f75a5dea";
+        let search = "Bujumbura";
 
-        //let currentDayUVURL = http://api.openweathermap.org/data/2.5/uvi?appid=16da2c71dd8c2c76dfce15f0f75a5dea&lat&q=Bujumbura,Burundi
-        // long 29.36
-        // lat -3.38
-        //http://api.openweathermap.org/data/2.5/uvi?appid=16da2c71dd8c2c76dfce15f0f75a5dea&lat=-3.38&lon=29.36
 
-        $.ajax({
-            url: currentDayURL,
-            method: 'GET'
-        }).then(function(weather){
-            console.log(weather);
+        init();
 
-            // Set up the text for the main header
-            let townName = weather.name;
-            let townCountry = weather.sys.country;
-            let timeStamp = new Date(weather.dt * 1000);
-            timeStamp = moment(timeStamp).format("MM/DD/YYYY");
-            let headerTitle = townName + ", " + townCountry + " " + "(" + timeStamp + ")";
+        function init(){
 
-            //Set up the Temp in F
-            let temp = (weather.main.temp - 273.15) * 9/5 + 32;
-            temp = temp.toFixed(2);
-
-            //define coordinates
-            let lon = weather.coord.lon;
-            let lat = weather.coord.lat;
-            // let forecastURL  = "http://api.openweathermap.org/data/2.5/onecall?q=Bujumbura&appid=16da2c71dd8c2c76dfce15f0f75a5dea";
-            let forecastURL = "https://api.openweathermap.org/data/2.5/onecall?appid=16da2c71dd8c2c76dfce15f0f75a5dea&lat=" + lat + "&lon=" + lon;
-
+            let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + search + "&appid=16da2c71dd8c2c76dfce15f0f75a5dea";
+            console.log(queryURL);
+            
             $.ajax({
-                url: forecastURL,
+                url: queryURL,
                 method: 'GET'
-            }).then(function(forecast){
+            }).then(function(weather){
+                console.log(weather);
 
-                console.log(forecast);
+                // Set up the text for the main header
+                let townName = weather.name;
+                let townCountry = weather.sys.country;
+                let timeStamp = new Date(weather.dt * 1000);
+                timeStamp = moment(timeStamp).format("MM/DD/YYYY");
+                let headerTitle = townName + ", " + townCountry + " " + "(" + timeStamp + ")";
 
-                let weatherDays = forecast.daily;
-                console.log(weatherDays);
+                //Set up the Temp in F
+                let temp = (weather.main.temp - 273.15) * 9/5 + 32;
+                temp = temp.toFixed(2);            
 
-                for(let i = 1; i <  6; i++)
-                {
-                    
-                    let theDate = new Date(weatherDays[i].dt * 1000);
-                    theDate = moment(theDate).format("MM/DD/YYYY");
-                    console.log(theDate);
+                //Assign Text To Card IDs
+                $("#cityHeader").text(headerTitle);
+                $("#tempText").text("Temp:  "  + temp + "°F");
+                $("#humidityText").text("Humidity: " + weather.main.humidity);
+                $("#windSpeedText").text("WindSpeed: " + weather.wind.speed);
 
-                    //create card div
-                    let $newCard = $("<div>");
-                    $newCard.addClass("card  col forecast");
-                    $("#forecastDiv").append($newCard);
-                    
-                    let $newCardBody = $("<div>");
-                    $newCardBody.addClass("card-body");
-                    $newCard.append($newCardBody);
-
-                    let $cardheader = $("<h4>");
-                    $cardheader.text(theDate)
-                    $newCardBody.append($cardheader);
-
-                    
-                    let dayIcon = "http://openweathermap.org/img/wn/" + weatherDays[i].weather[0].icon + ".png";
-
-                    let $icon = $("<img>");
-                    $icon.attr("src",dayIcon);
-                    $newCardBody.append($icon);
-
-                    let dayTemp = (weatherDays[i].temp.day- 273.15) * 9/5 + 32;
-                    dayTemp = dayTemp.toFixed(2);
-
-                    
-                    let $tempParagraph = $("<p>");
-                    $tempParagraph.text("Temp: " + dayTemp + "°F");
-                    $newCardBody.append($tempParagraph);
-
-                    let $humidityParagraph = $("<p>");
-                    $humidityParagraph.text("Humidity: " + weatherDays[i].humidity);
-                    $newCardBody.append($humidityParagraph);
-                    
-
-                }
-
-
-                /*
-                    <div class="card">
-                        
-                        <div class="card-body">
-
-                            <h4 class="card-title text-center" id="cityHeader"> City </h4>
-                            <p class="card-text" id="tempText"> Temp: </p>
-                            <p class="card-text" id="humidityText"> Humidity: </p>
-                            <p class="card-text" id="windSpeedText"> WindSpeed: </p>
-                            <p class="card-text" id="indexText"> Index: </p>
-
-                        </div>
-
-                    </div>
-
-                */
-
+                //define coordinates
+                let lon = weather.coord.lon;
+                let lat = weather.coord.lat;
                 
-                $("#indexText").text("UV Index: " + forecast.current.uvi);
-                let uvNum = Math.floor(forecast.current.uvi);
+                let forecastURL = "https://api.openweathermap.org/data/2.5/onecall?appid=16da2c71dd8c2c76dfce15f0f75a5dea&lat=" + lat + "&lon=" + lon;
 
-                //UV index	Media graphic color	Risk of harm from unprotected Sun exposure, for the average adult
-                    // 0 to 2	Green	"Low"
-                    // 3 to 5	Yellow	"Moderate"
-                    // 6 to 7	Orange	"High"
-                    // 8 to 10	Red	"Very high"
-                console.log(uvNum);
-                switch(uvNum)
-                {
-                    case 0,1,2:
-                        console.log("1");
-                        break;
-                    case 3,4,5:
-                        console.log("2");
-                        break;
-                    case 6,7:
-                        console.log("3");
-                        break;
-                    case 8:
-                        console.log("4");
-                        break;
-                    default:
-                        break;
-                }
+                $.ajax({
+                    url: forecastURL,
+                    method: 'GET'
+                }).then(function(forecast){
 
-            })
+                    $("#forecastDiv").empty();
 
-            //Assign Text To Card IDs
-            $("#cityHeader").text(headerTitle);
-            $("#tempText").text("Temp:  "  + temp + "°F");
-            $("#humidityText").text("Humidity: " + weather.main.humidity);
-            $("#windSpeedText").text("WindSpeed: " + weather.wind.speed);
+                    console.log(forecast);
 
-        });
+                    let weatherDays = forecast.daily;
+                    console.log(weatherDays);
+
+                    for(let i = 1; i <  6; i++)
+                    {
+                        let theDate = new Date(weatherDays[i].dt * 1000);
+                        theDate = moment(theDate).format("MM/DD/YYYY");
+                        console.log(theDate);
+
+                        //create card div
+                        let $newCard = $("<div>");
+                        $newCard.addClass("card  col forecast");
+                        $("#forecastDiv").append($newCard);
+                        
+                        let $newCardBody = $("<div>");
+                        $newCardBody.addClass("card-body");
+                        $newCard.append($newCardBody);
+
+                        let $cardheader = $("<h4>");
+                        $cardheader.text(theDate)
+                        $newCardBody.append($cardheader);
+
+                        
+                        let dayIcon = "http://openweathermap.org/img/wn/" + weatherDays[i].weather[0].icon + ".png";
+
+                        let $icon = $("<img>");
+                        $icon.attr("src",dayIcon);
+                        $newCardBody.append($icon);
+
+                        let dayTemp = (weatherDays[i].temp.day- 273.15) * 9/5 + 32;
+                        dayTemp = dayTemp.toFixed(2);
+
+                        
+                        let $tempParagraph = $("<p>");
+                        $tempParagraph.text("Temp: " + dayTemp + "°F");
+                        $newCardBody.append($tempParagraph);
+
+                        let $humidityParagraph = $("<p>");
+                        $humidityParagraph.text("Humidity: " + weatherDays[i].humidity);
+                        $newCardBody.append($humidityParagraph);
+                        
+
+                    }
+
+                    
+                    $("#indexText").text("UV Index: " + forecast.current.uvi);
+                    let uvNum = Math.floor(forecast.current.uvi);
+
+                    //UV index	Media graphic color	Risk of harm from unprotected Sun exposure, for the average adult
+                        // 0 to 2	Green	"Low"
+                        // 3 to 5	Yellow	"Moderate"
+                        // 6 to 7	Orange	"High"
+                        // 8 to 10	Red	"Very high"
+                    console.log(uvNum);
+                    switch(uvNum)
+                    {
+                        case 0,1,2:
+                            console.log("1");
+                            break;
+                        case 3,4,5:
+                            console.log("2");
+                            break;
+                        case 6,7:
+                            console.log("3");
+                            break;
+                        case 8:
+                            console.log("4");
+                            break;
+                        default:
+                            break;
+                    }
+
+                })
+
+            });
+
+        }
 
         
         // let uvURL = "http://api.openweathermap.org/data/2.5/uvi?appid=16da2c71dd8c2c76dfce15f0f75a5dea&lat=" + lat + "&lon=" + lon;
@@ -323,12 +320,18 @@
 
         // });
         
-
+        $("#citiesList").on("click", "li", function(){
+            console.log($(this).data("search"));
+            search = $(this).data("search");
+            console.log(search);
+            init();
+        });
 
         $("#addBtn").click(function(){
             let $listItem = $("<li>");
             $listItem.text($("#cityInput").val());
             $listItem.addClass("list-group-item");
+            $listItem.attr("data-search", $("#cityInput").val())
             $("#citiesList").append($listItem);
         });
 
