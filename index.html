@@ -20,28 +20,39 @@
 
     <style>
 
-        .weather{
-            margin-left: 50px;
-            margin-right: 50px;
+        .listCol{
+            padding-left: 25px;
+            padding-bottom: 10px
         }
         ul{
             width: 90%;
+        }
+        header{
+            padding-bottom: 20px;
+        }
+        .bg-dark{
+            color: white;
         }
         .mainCard{
             width: 100%;
         }
         .input-group{
-            width: 75%;
+            width: 90%;
         }
-        .card{
+        .card-body img{
+            height: 100px;
+        }
+        .forecast{
+            margin-top: 5px;
+            margin: 5px;
+        }
+        .forecast .card{
             font-size: 14px;
-            /* padding: 20px; */
-            margin: 3px;
+            margin: 10px;
             line-height: 10px;
         }
         .forecast .card-body{
             padding: 0px;
-            font-size: 10px;
         }
         .forecast .card-body img{
             height: 50px;
@@ -52,9 +63,33 @@
             margin-bottom: 10px;
         }
         .forecast .card-body h4{
-            font-size: 12px;
+            font-size: 20px;
             margin-top: 2px;
             font-weight: bolder;
+        }
+        .weatherRow{
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+        /*
+            // 0 to 2	Green	"Low"
+            // 3 to 5	Yellow	"Moderate"
+            // 6 to 7	Orange	"High"
+            // 8 to 10	Red	"Very high"
+
+        */
+        .uvLow{
+            background-color: green;
+        }
+        .uvModerate{
+            background-color: yellow;
+
+        }
+        .uvHigh{
+            background-color: orange;
+        }
+        .uvVeryHigh{
+            background-color: red;
         }
 
     </style>
@@ -71,7 +106,7 @@
         <section class="bg-dark row">
 
             <span class="col-sm-12">
-                <h1 class="text-center">Navbar</h1>
+                <h1 class="text-center">Weather Dashboard</h1>
             </span>
               
         </section>
@@ -88,12 +123,12 @@
             <section class="col-sm-3">
                 
                 <!-- Row for search bar -->
-                <article class="row">
+                <article class="row listCol">
                     <h5>Search For City:</h5>
                 </article>  
                 
                 <!-- Row for search bar -->
-                <article class="row">
+                <article class="row listCol">
 
                     <div class="input-group">
                         <!-- Search Input Box -->
@@ -109,7 +144,7 @@
                 </article>
 
                 <!-- To hold all main city buttons -->
-                <article class="row">
+                <article class="row listCol">
 
                     <ul class="list-group" id="citiesList">
                         <li class="list-group-item" data-search="Bujumbura">Bujumbura</li>
@@ -123,26 +158,29 @@
             </section>
                 
             <!-- col 8? hold all weather information for a city -->
-            <section class="col-sm-9">
+            <section class="col-sm-9 weatherRow">
 
-                <article class="row">
-                
-                    <div class="card mainCard">
+                <section class="row ">
+                    
+                        <div class="card mainCard">
+                            
+                            <div class="card-body">
+
+                                <h4 class="card-title text-center" id="cityHeader"> City </h4>
+                                
+                                <p class="card-text" id="tempText"> Temp: </p>
+                                <p class="card-text" id="humidityText"> Humidity: </p>
+                                <p class="card-text" id="windSpeedText"> WindSpeed: </p>
+                                <p class="card-text" id="indexText"> Index: </p>
                         
-                        <div class="card-body">
-
-                        <h4 class="card-title text-center" id="cityHeader"> City </h4>
-                        <p class="card-text" id="tempText"> Temp: </p>
-                        <p class="card-text" id="humidityText"> Humidity: </p>
-                        <p class="card-text" id="windSpeedText"> WindSpeed: </p>
-                        <p class="card-text" id="indexText"> Index: </p>
+                                
+                                
+                            </div>
 
                         </div>
-
-                    </div>
                     
                 
-                </article>
+                </section>
 
                 
                 <h3>5 Day Forecast: </h3>
@@ -154,6 +192,7 @@
             </section>
 
         </section>
+
     </main>
 
 
@@ -170,10 +209,10 @@
 
         init();
 
+        
         function init(){
 
             let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + search + "&appid=16da2c71dd8c2c76dfce15f0f75a5dea";
-            console.log(queryURL);
             
             $.ajax({
                 url: queryURL,
@@ -192,11 +231,16 @@
                 let temp = (weather.main.temp - 273.15) * 9/5 + 32;
                 temp = temp.toFixed(2);            
 
+                let currentDayIcon = weather.weather[0].icon;
+                
+
+
                 //Assign Text To Card IDs
                 $("#cityHeader").text(headerTitle);
                 $("#tempText").text("Temp:  "  + temp + "°F");
                 $("#humidityText").text("Humidity: " + weather.main.humidity);
                 $("#windSpeedText").text("WindSpeed: " + weather.wind.speed);
+                $("#todaysIcon").attr("src", "http://openweathermap.org/img/wn/" +  currentDayIcon + ".png");
 
                 //define coordinates
                 let lon = weather.coord.lon;
@@ -211,16 +255,12 @@
 
                     $("#forecastDiv").empty();
 
-                    console.log(forecast);
-
                     let weatherDays = forecast.daily;
-                    console.log(weatherDays);
 
                     for(let i = 1; i <  6; i++)
                     {
                         let theDate = new Date(weatherDays[i].dt * 1000);
                         theDate = moment(theDate).format("MM/DD/YYYY");
-                        console.log(theDate);
                         
                         //create card div
                         let $newCard = $("<div>");
@@ -269,22 +309,21 @@
                         // 6 to 7	Orange	"High"
                         // 8 to 10	Red	"Very high"
                     console.log(uvNum);
-                    switch(uvNum)
+                    if(uvNum >= 0 && uvNum <= 2)
                     {
-                        case 0,1,2:
-                            console.log("1");
-                            break;
-                        case 3,4,5:
-                            console.log("2");
-                            break;
-                        case 6,7:
-                            console.log("3");
-                            break;
-                        case 8:
-                            console.log("4");
-                            break;
-                        default:
-                            break;
+                        $("#indexText").attr("class", "uvLow");
+                    }
+                    else if(uvNum >= 3 && uvNum <= 5)
+                    {
+                        $("#indexText").attr("class", "uvModerate");                        
+                    }
+                    else if(uvNum >= 6 && uvNum <= 7)
+                    {
+                        $("#indexText").attr("class", "uvHigh");
+                    }
+                    else
+                    {
+                        $("#indexText").attr("class", "uvVeryHigh");
                     }
 
                 })
@@ -302,7 +341,9 @@
 
         $("#addBtn").click(function(){
             let $listItem = $("<li>");
-            $listItem.text($("#cityInput").val());
+            let listText = $("#cityInput").val();
+            listText = listText.trim();
+            $listItem.text(listText);
             $listItem.addClass("list-group-item");
             $listItem.attr("data-search", $("#cityInput").val())
             $("#citiesList").append($listItem);
