@@ -21,11 +21,14 @@ function init(){
     //Initialize the URL to Query
     let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + search + "&appid=16da2c71dd8c2c76dfce15f0f75a5dea";
 
+    console.log(queryURL);
+
     //Grab the weather information from the API
     $.ajax({
         url: queryURL,
         method: 'GET'
     }).then(function(response){
+
 
         //update Display for main card
         setMainWeatherCard(response);
@@ -35,6 +38,19 @@ function init(){
         let lon = response.coord.lon;
         getForecast(lat, lon)
 
+    }).fail(function(){
+        alert("incorrect Input");
+        console.log($(".list-group-item"));
+        for(let i = 0; i < $(".list-group-item").length; i++)
+        {
+
+            if($(".list-group-item")[i].innerText ===  search)
+            {
+                
+                $(".list-group-item")[i].remove();
+            }
+        }
+        console.log($(".list-group-item")); 
     });
 
 }//end init()
@@ -200,16 +216,32 @@ function cityClick()
 
 function addCityLI()
 {
+
+    for(let i = 0; i < $(".list-group-item").length; i++)
+    {
+        if($(cityInput).val().toLowerCase() == $(".list-group-item")[i].innerText.toLowerCase())
+            return;
+    }
+
     let $listItem = $("<li>");
 
     let listText = $("#cityInput").val();
     listText = listText.trim();
+
+    search = listText;
 
     $listItem.text(listText);
     $listItem.addClass("list-group-item");
     $listItem.attr("data-search", $("#cityInput").val())
     $("#citiesList").append($listItem);
     $("#cityInput").val("");
+    try {
+        
+        init();
+    }
+    catch(err) {
+        alert(err.message);
+    }
 }//end addCityLI()
 
 function checkForEnter(event)
