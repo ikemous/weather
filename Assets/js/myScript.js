@@ -141,38 +141,54 @@ function setForecastCard(day)
     
     //create card div
     let $newCard = $("<div>");
-    $newCard.addClass("card col-sm forecast");
+    $newCard.addClass("col-sm forecast card");
     $("#forecastDiv").append($newCard);
     
     let $newCardBody = $("<div>");
     $newCardBody.addClass("card-body");
     $newCard.append($newCardBody);
 
+    let $headerRow = $("<row>");
+    $headerRow.addClass("row");
+    $newCardBody.append($headerRow);
+
     let $cardheader = $("<h4>");
     $cardheader.text(theDate);
     $cardheader.addClass("lead");
-    $newCardBody.append($cardheader);
+    $headerRow.append($cardheader);
 
     
     let dayIcon = "http://openweathermap.org/img/wn/" + day.weather[0].icon + ".png";
 
+    let $iconRow = $("<div>");
+    $iconRow.addClass("row");
+    $newCardBody.append($iconRow);
+
     let $icon = $("<img>");
     $icon.addClass("row");
-    $icon.attr("src",dayIcon);
-    $newCardBody.append($icon);
+    $icon.attr("src", dayIcon);
+    $iconRow.append($icon);
 
     let dayTemp = (day.temp.day- 273.15) * 9/5 + 32;
     dayTemp = dayTemp.toFixed(2);
+
+    let $tempRow = $("<div>");
+    $tempRow.addClass("row");
+    $newCardBody.append($tempRow);
     
     let $tempParagraph = $("<p>");
     $tempParagraph.addClass("card-text");
     $tempParagraph.text("Temp: " + dayTemp + "°F");
-    $newCardBody.append($tempParagraph);
+    $tempRow.append($tempParagraph);
+
+    let $humidityRow = $("<div>");
+    $humidityRow.addClass("row");
+    $newCardBody.append($humidityRow);
 
     let $humidityParagraph = $("<p>");
     $humidityParagraph.addClass("card-text");
     $humidityParagraph.text("Humidity: " + day.humidity);
-    $newCardBody.append($humidityParagraph);
+    $humidityRow.append($humidityParagraph);
 }//End setForecastCard()
 
 function cityClick()
