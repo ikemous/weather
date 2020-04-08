@@ -2,11 +2,13 @@
     padding-left: 25px;
     padding-bottom: 10px
 }
-ul{
-    width: 90%;
-}
+ul{width: 100%;}
 header{
     padding-bottom: 20px;
+}
+#mainCardIcon{
+    margin-left: auto;
+    margin-right: auto;
 }
 .bg-dark{
     color: white;
@@ -15,7 +17,7 @@ header{
     width: 100%;
 }
 .input-group{
-    width: 90%;
+    width: 80%;
 }
 .card-body img{
     height: 100px;
@@ -30,17 +32,13 @@ header{
     margin: 10px;
     line-height: 10px;
 }
-.forecast .card-body{
-    padding: 5px;
-}
+.forecast .card-body{padding: 5px;}
 .forecast .card-body img{
     height: 50px;
     margin-left: auto;
     margin-right: auto;
 }
-.forecast .card-body p{
-    margin-bottom: 10px;
-}
+.forecast .card-body p{ margin-bottom: 10px;}
 .forecast .card-body h4{
     font-size: 16px;
     margin-top: 2px;
@@ -50,16 +48,39 @@ header{
     padding-left: 40px;
     padding-right: 40px;
 }
-.uvLow{
-    background-color: green;
-}
-.uvModerate{
-    background-color: yellow;
+.uvLow{background-color: green;}
+.uvModerate{background-color: yellow;}
+.uvHigh{ background-color: orange;}
+.uvVeryHigh{background-color: red;}
 
+.jumbotron{
+    margin: 5px!important; 
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
-.uvHigh{
-    background-color: orange;
+#preSetCities{ width: 85%;}
+.dropDownHeader {
+    width: 85%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
 }
-.uvVeryHigh{
-    background-color: red;
+.dropDown {
+    padding-left: 0;
+    padding-right: 0;
 }
+.dropDownContent {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    width: 85%;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}   
+.dropDown:hover .dropDownContent {display: block;}
+.dropDown:hover .dropDownHeader {background-color: #3e8e41;}
+
+
+

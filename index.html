@@ -19,7 +19,16 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
     <link rel="stylesheet" type="text/css" href="./Assets/css/style.css" />
 
+    <style>
+                
+        
+
+  
+    </style>
+
+
 </head>
+
 
 
 <body>
@@ -37,8 +46,35 @@
 
     </header>
 
+    <div class="container">
+        <article class="jumbotron">
+            <h1 class="display-6">How This Works!</h1>
+            <p class="lead">Purpose: To display weather Information from an API Follow The Easy Steps Below!</p>
+            <hr class="my-2">
+            <ul>
+                <li>Type Desired City</li>
+                <li>Press "Enter" or the Search Button</li>
+            </ul>
+            <p class="lead">Want to look at a previously searched City?</p>
+            <hr class="my-2">
+            <ul>
+                <li>Click(Mobile)/Hover(Laptop or Desktop) on the saved cities header</li>
+                <li>Pick which city you would like to view</li>
+            </ul>
+            <hr class="my-2">
+            <p class="lead">It's that simple!</p>
+
+        </article>
+
+    </div>
+
     <!-- container -->
     <main class="container-full weather">
+        
+        <section class="row">
+
+                
+        </section>
 
         <!-- big row to hold all items -->
         <section class="row">
@@ -70,14 +106,29 @@
                 <!-- To hold all main city buttons -->
                 <article class="row listCol">
 
-                    <ul class="list-group" id="citiesList">
+                    <ul class="list-group" id="preSetCities">
                         <li class="list-group-item" data-search="Bujumbura">Bujumbura</li>
                         <li class="list-group-item" data-search="London">London</li>
-                    </ul>
-                      
+                    </ul>                      
 
                 </article>
 
+                <article class="row listCol">
+
+
+                    <div class="dropDown col-sm-12">
+
+                        <h5 class="dropDownHeader">Saved Cities</h5>
+                        <div class="dropDownContent">
+                            <ul class="list-group" id="citiesList">
+
+                            </ul> 
+                        </div>
+
+                    <div>
+
+                      
+                </article>
 
             </section>
                 
@@ -86,34 +137,34 @@
 
                 <section class="row ">
                     
-                        <div class="card mainCard">
-                            
-                            <div class="card-body">
-
-                                <div class="row">
-                                    
-                                    <h4 class="col-sm-12 card-title text-center" id="cityHeader"> City </h4>
-
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-sm-8">
-                                        <p class="card-text" id="tempText"> Temp: </p>
-                                        <p class="card-text" id="humidityText"> Humidity: </p>
-                                        <p class="card-text" id="windSpeedText"> WindSpeed: </p>
-                                        <p class="card-text">UV Index:    <span id="indexText"></span> </p>
-                                    </div>
-
-                                    <div class="col-sm-4">
-                                        <img id="mainCardIcon" />
-                                    </div>
-                                </div>
+                    <div class="card mainCard">
                         
-                                
-                                
-                            </div>
+                        <div class="card-body">
 
+                            <div class="row">
+                                
+                                <h4 class="col-sm-12 card-title text-center" id="cityHeader"> City </h4>
+
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p class="card-text" id="tempText"> Temp: </p>
+                                    <p class="card-text" id="humidityText"> Humidity: </p>
+                                    <p class="card-text" id="windSpeedText"> WindSpeed: </p>
+                                    <p class="card-text">UV Index:    <span id="indexText"></span> </p>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <img class="row" id="mainCardIcon" />
+                                </div>
+                            </div>
+                    
+                            
+                            
                         </div>
+
+                    </div>
                     
                 
                 </section>
@@ -125,7 +176,10 @@
 
                 </article>
 
+                
+
             </section>
+
 
         </section>
 

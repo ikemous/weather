@@ -38,22 +38,22 @@ function init(){
         let lon = response.coord.lon;
         getForecast(lat, lon)
 
-    }).fail(function(){
-        alert("incorrect Input");
-        console.log($(".list-group-item"));
-        for(let i = 0; i < $(".list-group-item").length; i++)
-        {
-
-            if($(".list-group-item")[i].innerText ===  search)
-            {
-                
-                $(".list-group-item")[i].remove();
-            }
-        }
-        console.log($(".list-group-item")); 
-    });
+    }).fail(removeLI);
 
 }//end init()
+
+function removeLI()
+{
+    
+    for(let i = 0; i < $(".list-group-item").length; i++)
+    {
+        if($(".list-group-item")[i].innerText ===  search)
+            $(".list-group-item")[i].remove();
+    }
+
+    alert(search + " Is an invalid option in the API");
+
+}
 
 /**
  *              getForecast()
@@ -253,6 +253,8 @@ function checkForEnter(event)
 
 //Event Listeners
 $("#citiesList").on("click", "li", cityClick);
+
+$("#preSetCities").on("click", "li", cityClick);
 
 $("#addBtn").click(addCityLI);
 
