@@ -1,4 +1,3 @@
-
 /**
  * myScript.js
  * Author: Adrian Ike Barranco
@@ -8,6 +7,8 @@
 //Gobal Variables
 let search = "Bujumbura";//Bujumbura Used for the inital card Create
 let savedCities = [];//Array to hold all saved cities
+
+//#region Functions
 
 /**
  *              init()
@@ -316,6 +317,8 @@ function removeLI()
 
     localStorage.setItem("savedCities", JSON.stringify(savedCities));
 }//End removeLI()
+
+//#endregion Functions
 
 
 

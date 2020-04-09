@@ -2,6 +2,11 @@ body{
     background-color: #343a40;
     color: white;
 }
+.col-sm{
+    background-color: #6F93BB;
+    border: 3px solid;
+    border-color: #7F7B82;
+}
 .listCol{
     padding-left: 25px;
     padding-bottom: 10px;
@@ -12,6 +17,7 @@ header{
 }
 .list-group-item{
     color: black;
+    background-color: #DEE5E5;
 }
 .sticky-top{
     bottom:0;
@@ -27,9 +33,18 @@ header{
 }
 .mainCard{
     width: 100%;
+    border: 3px solid;
+    border-color: #7F7B82;    
 }
 .input-group{
     width: 80%;
+}
+.weatherRow .card-body{
+    background-color: #6F93BB;
+}
+.card-title{
+    
+    font-weight: bold;
 }
 .card{
     color: black;
@@ -48,7 +63,11 @@ header{
     line-height: 10px;
     color: black;
 }
-.forecast .card-body{padding: 5px;}
+.forecast .card-body{
+    
+    background-color: #6F93BB;
+    padding: 5px;
+}
 .forecast .card-body img{
     height: 50px;
     margin-left: auto;
@@ -58,7 +77,11 @@ header{
 .forecast .card-body h4{
     font-size: 16px;
     margin-top: 2px;
-    font-weight: bolder;
+    font-weight: bold;
+}
+.weather{
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 .weatherRow{
     padding-left: 40px;
@@ -74,6 +97,9 @@ header{
     padding-top: 5px;
     padding-bottom: 5px;
     color: black;
+    background-color: #DEE5E5;
+    border: 3px solid;
+    border-color: #7F7B82;
 }
 #preSetCities{ width: 85%;}
 .dropDownHeader {
