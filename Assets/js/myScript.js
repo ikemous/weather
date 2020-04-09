@@ -7,8 +7,7 @@
 
 //Gobal Variables
 let search = "Bujumbura";//Bujumbura Used for the inital card Create
-
-init();
+let savedCities = [];//Array to hold all saved cities
 
 /**
  *              init()
@@ -21,14 +20,11 @@ function init(){
     //Initialize the URL to Query
     let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + search + "&appid=16da2c71dd8c2c76dfce15f0f75a5dea";
 
-    console.log(queryURL);
-
     //Grab the weather information from the API
     $.ajax({
         url: queryURL,
         method: 'GET'
     }).then(function(response){
-
 
         //update Display for main card
         setMainWeatherCard(response);
@@ -42,18 +38,32 @@ function init(){
 
 }//end init()
 
-function removeLI()
+/**
+ *              loadSavedCities()
+ *  Purpose: Appends all cities to the saved cities dropdown
+ *  Parameters: None
+ *  Returns: None
+ */
+function loadSavedCities()
 {
-    
-    for(let i = 0; i < $(".list-group-item").length; i++)
+    //Grab the saved cities from the local storage
+    savedCities = JSON.parse(localStorage.getItem("savedCities"));
+
+    //assign the array to empty if local storage was empty
+    if(savedCities === null)
+        savedCities = [];
+
+    //Create and append List Items For Each Saved City
+    for(let i = 0; i < savedCities.length; i++)
     {
-        if($(".list-group-item")[i].innerText ===  search)
-            $(".list-group-item")[i].remove();
+        let $listItem = $("<li>");
+        $listItem.text(savedCities[i]);
+        $listItem.addClass("list-group-item");
+        $listItem.attr("data-search", savedCities[i]);
+        $("#citiesList").append($listItem);
     }
 
-    alert(search + " Is an invalid option in the API");
-
-}
+}//End loadSavedCities()
 
 /**
  *              getForecast()
@@ -92,6 +102,71 @@ function getForecast(lat, lon)
 }//end getForecast()
 
 /**
+ *              setForecastCard()
+ *  Purpose: create forecast cards with the correct information
+ *  Parameters: day - obj with weather information
+ *  Returns: None
+ */
+function setForecastCard(day)
+{
+    //convert date from XML to string
+    let theDate = new Date(day.dt * 1000);
+    theDate = moment(theDate).format("MM/DD/YYYY");
+    
+    //create card div
+    let $newCard = $("<div>");
+    $newCard.addClass("col-sm forecast card");
+    $("#forecastDiv").append($newCard);
+
+    //Create Card Body
+    let $newCardBody = $("<div>");
+    $newCardBody.addClass("card-body");
+    $newCard.append($newCardBody);
+
+    //Create Card Header
+    let $headerRow = $("<row>");
+    $headerRow.addClass("row");
+    $newCardBody.append($headerRow);
+    let $cardheader = $("<h4>");
+    $cardheader.text(theDate);
+    $cardheader.addClass("lead");
+    $headerRow.append($cardheader);
+
+    //Create Card Image 
+    let dayIcon = "http://openweathermap.org/img/wn/" + day.weather[0].icon + ".png";
+    let $iconRow = $("<div>");
+    $iconRow.addClass("row");
+    $newCardBody.append($iconRow);
+    let $icon = $("<img>");
+    $icon.addClass("row");
+    $icon.attr("src", dayIcon);
+    $iconRow.append($icon);
+
+    //Convert Temp from K to F F=(K- 273.15) * 9/5 + 32
+    let dayTemp = (day.temp.day- 273.15) * 9/5 + 32;
+    dayTemp = dayTemp.toFixed(2);
+
+    //Create Card Paragrph for degrees
+    let $tempRow = $("<div>");
+    $tempRow.addClass("row");
+    $newCardBody.append($tempRow);
+    let $tempParagraph = $("<p>");
+    $tempParagraph.addClass("card-text");
+    $tempParagraph.text("Temp: " + dayTemp + "°F");
+    $tempRow.append($tempParagraph);
+
+    //Create Card Paragraph for Humidity
+    let $humidityRow = $("<div>");
+    $humidityRow.addClass("row");
+    $newCardBody.append($humidityRow);
+    let $humidityParagraph = $("<p>");
+    $humidityParagraph.addClass("card-text");
+    $humidityParagraph.text("Humidity: " + day.humidity);
+    $humidityRow.append($humidityParagraph);
+
+}//End setForecastCard()
+
+/**
  *              setMainWeatherCard()
  *  Purpose: Update the Main Card With The right Weather Information
  *  Parameters: weather - object holding all information for the weather location
@@ -99,7 +174,6 @@ function getForecast(lat, lon)
  */
 function setMainWeatherCard(weather)
 {
-    console.log(weather);
     // Set up the text for the main header
     let townName = weather.name;
     let townCountry = weather.sys.country;
@@ -111,6 +185,7 @@ function setMainWeatherCard(weather)
     let temp = (weather.main.temp - 273.15) * 9/5 + 32;
     temp = temp.toFixed(2);            
 
+    //Grab the icon for the weather
     let dayIcon = "http://openweathermap.org/img/wn/" + weather.weather[0].icon + ".png";
     
     //Assign Text To Card IDs
@@ -149,109 +224,102 @@ function setUvBackground(uNum)
     }
 }//End setUvBackground()
 
-function setForecastCard(day)
-{
-
-    let theDate = new Date(day.dt * 1000);
-    theDate = moment(theDate).format("MM/DD/YYYY");
-    
-    //create card div
-    let $newCard = $("<div>");
-    $newCard.addClass("col-sm forecast card");
-    $("#forecastDiv").append($newCard);
-    
-    let $newCardBody = $("<div>");
-    $newCardBody.addClass("card-body");
-    $newCard.append($newCardBody);
-
-    let $headerRow = $("<row>");
-    $headerRow.addClass("row");
-    $newCardBody.append($headerRow);
-
-    let $cardheader = $("<h4>");
-    $cardheader.text(theDate);
-    $cardheader.addClass("lead");
-    $headerRow.append($cardheader);
-
-    
-    let dayIcon = "http://openweathermap.org/img/wn/" + day.weather[0].icon + ".png";
-
-    let $iconRow = $("<div>");
-    $iconRow.addClass("row");
-    $newCardBody.append($iconRow);
-
-    let $icon = $("<img>");
-    $icon.addClass("row");
-    $icon.attr("src", dayIcon);
-    $iconRow.append($icon);
-
-    let dayTemp = (day.temp.day- 273.15) * 9/5 + 32;
-    dayTemp = dayTemp.toFixed(2);
-
-    let $tempRow = $("<div>");
-    $tempRow.addClass("row");
-    $newCardBody.append($tempRow);
-    
-    let $tempParagraph = $("<p>");
-    $tempParagraph.addClass("card-text");
-    $tempParagraph.text("Temp: " + dayTemp + "°F");
-    $tempRow.append($tempParagraph);
-
-    let $humidityRow = $("<div>");
-    $humidityRow.addClass("row");
-    $newCardBody.append($humidityRow);
-
-    let $humidityParagraph = $("<p>");
-    $humidityParagraph.addClass("card-text");
-    $humidityParagraph.text("Humidity: " + day.humidity);
-    $humidityRow.append($humidityParagraph);
-}//End setForecastCard()
-
-function cityClick()
-{
-    search = $(this).data("search");
-    console.log(search);
-    init();
-}//End cityClick()
-
+/**
+ *              addCityLI()
+ *  Purpose: Appends a new list item to the saved cities dropdown box
+ *  Parameters: day - obj with weather information
+ *  Returns: None
+ */
 function addCityLI()
 {
-
-    for(let i = 0; i < $(".list-group-item").length; i++)
-    {
-        if($(cityInput).val().toLowerCase() == $(".list-group-item")[i].innerText.toLowerCase())
-            return;
-    }
-
-    let $listItem = $("<li>");
-
+    //Grab the text from the input box
     let listText = $("#cityInput").val();
     listText = listText.trim();
 
+    //Reassign the value of search
     search = listText;
 
+    //Check current list of cities for the current value
+    for(let i = 0; i < $(".list-group-item").length; i++)
+    {
+        //If item exists inside the cities
+        if($(cityInput).val().toLowerCase() == $(".list-group-item")[i].innerText.toLowerCase())
+        {
+            //Reload all  cards with input
+            init();
+            //Get out of function
+            return;
+        }
+    }
+
+    //Create and append new list item
+    let $listItem = $("<li>");
     $listItem.text(listText);
     $listItem.addClass("list-group-item");
-    $listItem.attr("data-search", $("#cityInput").val())
+    $listItem.attr("data-search", listText)
     $("#citiesList").append($listItem);
     $("#cityInput").val("");
-    try {
-        
-        init();
-    }
-    catch(err) {
-        alert(err.message);
-    }
+
+    //Update saved Cities array
+    savedCities.push(listText);
+    //Update Localk Storage
+    localStorage.setItem("savedCities", JSON.stringify(savedCities));
+    //reload all cards
+    init();
 }//end addCityLI()
 
+/**
+ *              checkForEnter()
+ *  Purpose: Checks if the key pressed was Enter
+ *  Parameters: event- the properties for the key pressed
+ *  Returns: None
+ */
 function checkForEnter(event)
 {
+    //if key pressed was enter
     if(event.key === "Enter")
         addCityLI();
 }//end Check For Enter
 
 
-//Event Listeners
+/**
+ *              cityClick()
+ *  Purpose: to update search variable and reinitiate the cards
+ *  Parameters: day - obj with weather information
+ *  Returns: None
+ */
+function cityClick()
+{
+    //update
+    search = $(this).data("search");
+    //initiate
+    init();
+}//End cityClick()
+
+/**
+ *              removeLI()
+ *  Purpose: Appends all cities to the saved cities dropdown
+ *  Parameters: None
+ *  Returns: None
+ */
+function removeLI()
+{
+    //Find The  Item and remove it
+    for(let i = 0; i < $(".list-group-item").length; i++)
+        if($(".list-group-item")[i].innerText ===  search)
+            $(".list-group-item")[i].remove();
+
+    alert(search + " Is an invalid option in the API");
+
+    savedCities.pop();
+    localStorage.clear();
+
+    localStorage.setItem("savedCities", JSON.stringify(savedCities));
+}//End removeLI()
+
+
+
+//#region Event Listeners
 $("#citiesList").on("click", "li", cityClick);
 
 $("#preSetCities").on("click", "li", cityClick);
@@ -259,3 +327,9 @@ $("#preSetCities").on("click", "li", cityClick);
 $("#addBtn").click(addCityLI);
 
 $("#cityInput").keypress(checkForEnter);
+//#endregion Event Listeners
+
+
+//Call Functions To Initate page load
+loadSavedCities();
+init();

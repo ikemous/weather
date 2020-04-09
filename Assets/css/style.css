@@ -1,10 +1,22 @@
+body{
+    background-color: #343a40;
+    color: white;
+}
 .listCol{
     padding-left: 25px;
-    padding-bottom: 10px
+    padding-bottom: 10px;
 }
 ul{width: 100%;}
 header{
     padding-bottom: 20px;
+}
+.list-group-item{
+    color: black;
+}
+.sticky-top{
+    bottom:0;
+    width: 100%;
+    background-color: #343a40;
 }
 #mainCardIcon{
     margin-left: auto;
@@ -19,6 +31,9 @@ header{
 .input-group{
     width: 80%;
 }
+.card{
+    color: black;
+}
 .card-body img{
     height: 100px;
 }
@@ -31,6 +46,7 @@ header{
     font-size: 14px;
     margin: 10px;
     line-height: 10px;
+    color: black;
 }
 .forecast .card-body{padding: 5px;}
 .forecast .card-body img{
@@ -57,6 +73,7 @@ header{
     margin: 5px!important; 
     padding-top: 5px;
     padding-bottom: 5px;
+    color: black;
 }
 #preSetCities{ width: 85%;}
 .dropDownHeader {
