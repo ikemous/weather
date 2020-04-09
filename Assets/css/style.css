@@ -7,6 +7,9 @@ body{
     border: 3px solid;
     border-color: #7F7B82;
 }
+.link{
+    display: block;
+}
 .listCol{
     padding-left: 25px;
     padding-bottom: 10px;
@@ -91,6 +94,7 @@ header{
 .uvModerate{background-color: yellow;}
 .uvHigh{ background-color: orange;}
 .uvVeryHigh{background-color: red;}
+.uvExtreme{background-color: violet;}
 
 .jumbotron{
     margin: 5px!important; 
@@ -122,8 +126,8 @@ header{
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
 }   
-.dropDown:hover .dropDownContent {display: block;}
-.dropDown:hover .dropDownHeader {background-color: #3e8e41;}
+/* .dropDown:hover .dropDownContent {display: block;}
+.dropDown:hover .dropDownHeader {background-color: #3e8e41;} */
 
 
 

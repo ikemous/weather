@@ -7,6 +7,7 @@
 //Gobal Variables
 let search = "Bujumbura";//Bujumbura Used for the inital card Create
 let savedCities = [];//Array to hold all saved cities
+let showCities = false;//Used for the button array
 
 //#region Functions
 
@@ -219,9 +220,13 @@ function setUvBackground(uNum)
     {
         $("#indexText").attr("class", "uvHigh");
     }
+    else if(uNum >= 8 && uNum <= 10)// 6 to 7	Orange	"High"
+    {
+        $("#indexText").attr("class", "uvHigh");
+    }
     else// 8 to 10	Red	"Very high"
     {
-        $("#indexText").attr("class", "uvVeryHigh");
+        $("#indexText").attr("class", "uvExtreme");
     }
 }//End setUvBackground()
 
@@ -293,6 +298,9 @@ function cityClick()
 {
     //update
     search = $(this).data("search");
+    x
+    showCities = false;
+    $(".dropDownContent").css("display", "none");
     //initiate
     init();
 }//End cityClick()
@@ -330,6 +338,30 @@ $("#preSetCities").on("click", "li", cityClick);
 $("#addBtn").click(addCityLI);
 
 $("#cityInput").keypress(checkForEnter);
+
+$("#saveButton").click(function(){
+    console.log("I made it");
+    if(showCities === false)
+    {
+        console.log("this");
+        showCities = true;
+        $(".dropDownContent").css("display", "block");
+        return;
+    }
+    showCities = false;
+    $(".dropDownContent").css("display", "none");
+    
+});
+
+window.addEventListener("click", function(event){
+    console.log(event.target);
+    if(!event.target.matches("button"))
+    {
+        showCities = false;
+        $(".dropDownContent").css("display", "none");
+    }
+});
+
 //#endregion Event Listeners
 
 
