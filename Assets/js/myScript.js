@@ -354,7 +354,6 @@ $("#saveButton").click(function(){
 });
 
 window.addEventListener("click", function(event){
-    console.log(event.target);
     if(!event.target.matches("button"))
     {
         showCities = false;
