@@ -49,7 +49,7 @@ function init(){
 
 /**
  *              loadSavedCities()
- *  Purpose: Appends all cities to the saved cities dropdown
+ *  Purpose: Appends all cities to the search cities dropdown
  *  Parameters: None
  *  Returns: None
  */
@@ -98,7 +98,7 @@ function getForecast(lat, lon)
         //Grab the forecast days from the API
         let weatherDays = forecast.daily;
         
-
+        console.log(weatherDays)
         //Update All weather cards
         for(let i = 1; i <  6; i++)
         {
@@ -151,6 +151,7 @@ function setForecastCard(day)
     let $icon = $("<img>");
     $icon.addClass("row");
     $icon.attr("src", dayIcon);
+    $icon.attr("alt", day.weather[0].description);
     $iconRow.append($icon);
 
     //Convert Temp from K to F F=(K- 273.15) * 9/5 + 32
@@ -185,6 +186,7 @@ function setForecastCard(day)
  */
 function setMainWeatherCard(weather)
 {
+    console.log(weather);
     // Set up the text for the main header
     let townName = weather.name;
     let townCountry = weather.sys.country;
@@ -205,6 +207,7 @@ function setMainWeatherCard(weather)
     $("#humidityText").text("Humidity: " + weather.main.humidity + "%");
     $("#windSpeedText").text("WindSpeed: " + weather.wind.speed + "meter/sec");
     $("#mainCardIcon").attr("src", dayIcon);
+    $("#mainCardIcon").attr("alt", weather.weather[0].description);
 
 }//End setMainWeatherCard()
 
