@@ -164,7 +164,7 @@ function setForecastCard(day)
     $newCardBody.append($humidityRow);
     let $humidityParagraph = $("<p>");
     $humidityParagraph.addClass("card-text");
-    $humidityParagraph.text("Humidity: " + day.humidity);
+    $humidityParagraph.text("Humidity: " + day.humidity + "%");
     $humidityRow.append($humidityParagraph);
 
 }//End setForecastCard()
@@ -194,8 +194,8 @@ function setMainWeatherCard(weather)
     //Assign Text To Card IDs
     $("#cityHeader").text(headerTitle);
     $("#tempText").text("Temp:  "  + temp + "°F");
-    $("#humidityText").text("Humidity: " + weather.main.humidity);
-    $("#windSpeedText").text("WindSpeed: " + weather.wind.speed);
+    $("#humidityText").text("Humidity: " + weather.main.humidity + "%");
+    $("#windSpeedText").text("WindSpeed: " + weather.wind.speed + "meter/sec");
     $("#mainCardIcon").attr("src", dayIcon);
 
 }//End setMainWeatherCard()
