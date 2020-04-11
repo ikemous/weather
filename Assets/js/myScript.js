@@ -48,6 +48,7 @@ function init(){
  */
 function loadSavedCities()
 {
+    $("#citiesList").html("");
     //Grab the saved cities from the local storage
     savedCities = JSON.parse(localStorage.getItem("savedCities"));
 
@@ -276,6 +277,24 @@ function addCityLI()
 }//end addCityLI()
 
 /**
+ *              clearList()
+ *  Purpose: remove all values from the cities list, clears local stoarage and reloads the saved list
+ *  Parameters: None
+ *  Returns: None
+ */
+function clearList()
+{
+    //Clear List
+    savedCities = [];
+    localStorage.clear();
+    localStorage.setItem("savedCities", JSON.stringify(savedCities));
+
+    //Reload List
+    loadSavedCities();   
+}//End Clear List
+
+
+/**
  *              checkForEnter()
  *  Purpose: Checks if the key pressed was Enter
  *  Parameters: event- the properties for the key pressed
@@ -339,6 +358,8 @@ $("#preSetCities").on("click", "li", cityClick);
 $("#addBtn").click(addCityLI);
 
 $("#cityInput").keypress(checkForEnter);
+
+$("#clearButton").click(clearList);
 
 $("#saveButton").click(function(){
     if(showCities === false)

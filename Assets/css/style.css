@@ -24,29 +24,6 @@ header{ padding-bottom: 20px;}
 ul{width: 100%;}
 /* End Page Stylings */
 
-/* Drop Down CSS */
-.dropDown {
-    padding-left: 0;
-    padding-right: 0;
-}
-.dropDownContent {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    width: 85%;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-.dropDownHeader {
-    width: 85%;
-    background-color: #4CAF50;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-}
-/* End Drop Down CSS */
-
 /* UV CSS */
 #indexText{
     padding: 2px;
@@ -103,7 +80,28 @@ footer .row{
     background-color: #DEE5E5;
 }
 #preSetCities{ width: 85%;}
-/* End User Interaction CSSS*/
+.dropDown {
+    padding-left: 0;
+    padding-right: 0;
+}
+.dropDownContent {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    width: 85%;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+#clearButton, #saveButton{
+    margin-top: 10px;
+    width: 85%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+}
+/* End User Interaction CSS*/
 
 /* Main Weather Card */
 #mainCardIcon{
