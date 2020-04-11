@@ -346,6 +346,23 @@ function removeLI()
     localStorage.setItem("savedCities", JSON.stringify(savedCities));
 }//End removeLI()
 
+function displayList()
+{
+    if(savedCities.length === 0)
+    {
+        alert("no previous city search")
+    }
+    if(showCities === false)
+    {
+        showCities = true;
+        $(".dropDownContent").css("display", "block");
+        return;
+    }
+    showCities = false;
+    $(".dropDownContent").css("display", "none");
+    
+}
+
 //#endregion Functions
 
 
@@ -361,21 +378,7 @@ $("#cityInput").keypress(checkForEnter);
 
 $("#clearButton").click(clearList);
 
-$("#savedListButton").click(function(){
-    if(savedCities.length === 0)
-    {
-        alert("no previous city search")
-    }
-    if(showCities === false)
-    {
-        showCities = true;
-        $(".dropDownContent").css("display", "block");
-        return;
-    }
-    showCities = false;
-    $(".dropDownContent").css("display", "none");
-    
-});
+$("#savedListButton").click(displayList);
 
 window.addEventListener("click", function(event){
     if(!event.target.matches("button"))
