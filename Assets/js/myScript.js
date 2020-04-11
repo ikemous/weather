@@ -8,7 +8,7 @@
 let search = localStorage.getItem("lastSearch");//last search Used for the inital card to Create
     //Check if person ever searched anything
     if(search === null)
-        search = "Bujumbura";
+        search = "Bujumbura";//Default search
         
 let savedCities = [];//Array to hold all saved cities
 let showCities = false;//Used for the button array
@@ -285,7 +285,7 @@ function addCityLI()
 
 /**
  *              clearList()
- *  Purpose: remove all values from the cities list, clears local stoarage and reloads the saved list
+ *  Purpose: remove all values from the user interaction and reloads the saved list
  *  Parameters: None
  *  Returns: None
  */
