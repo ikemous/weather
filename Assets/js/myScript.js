@@ -89,6 +89,7 @@ function getForecast(lat, lon)
 
         //Grab the forecast days from the API
         let weatherDays = forecast.daily;
+        
 
         //Update All weather cards
         for(let i = 1; i <  6; i++)
@@ -126,7 +127,7 @@ function setForecastCard(day)
     $newCard.append($newCardBody);
 
     //Create Card Header
-    let $headerRow = $("<row>");
+    let $headerRow = $("<div>");
     $headerRow.addClass("row");
     $newCardBody.append($headerRow);
     let $cardheader = $("<h4>");
@@ -298,7 +299,7 @@ function cityClick()
 {
     //update
     search = $(this).data("search");
-    x
+    
     showCities = false;
     $(".dropDownContent").css("display", "none");
     //initiate
@@ -340,10 +341,8 @@ $("#addBtn").click(addCityLI);
 $("#cityInput").keypress(checkForEnter);
 
 $("#saveButton").click(function(){
-    console.log("I made it");
     if(showCities === false)
     {
-        console.log("this");
         showCities = true;
         $(".dropDownContent").css("display", "block");
         return;
