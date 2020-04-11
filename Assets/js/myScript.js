@@ -5,7 +5,11 @@
  */
 
 //Gobal Variables
-let search = "Bujumbura";//Bujumbura Used for the inital card Create
+let search = localStorage.getItem("lastSearch");//last search Used for the inital card to Create
+    //Check if person ever searched anything
+    if(search === null)
+        search = "Bujumbura";
+        
 let savedCities = [];//Array to hold all saved cities
 let showCities = false;//Used for the button array
 
@@ -21,6 +25,8 @@ function init(){
 
     //Initialize the URL to Query
     let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + search + "&appid=16da2c71dd8c2c76dfce15f0f75a5dea";
+    
+
 
     //Grab the weather information from the API
     $.ajax({
@@ -36,6 +42,7 @@ function init(){
         let lon = response.coord.lon;
         getForecast(lat, lon)
 
+        storeLastSearch();
     }).fail(removeLI);
 
 }//end init()
@@ -361,6 +368,11 @@ function displayList()
     showCities = false;
     $(".dropDownContent").css("display", "none");
     
+}
+
+function storeLastSearch()
+{
+    localStorage.setItem("lastSearch", search);
 }
 
 //#endregion Functions
