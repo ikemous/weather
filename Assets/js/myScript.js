@@ -361,7 +361,11 @@ $("#cityInput").keypress(checkForEnter);
 
 $("#clearButton").click(clearList);
 
-$("#saveButton").click(function(){
+$("#savedListButton").click(function(){
+    if(savedCities.length === 0)
+    {
+        alert("no previous city search")
+    }
     if(showCities === false)
     {
         showCities = true;

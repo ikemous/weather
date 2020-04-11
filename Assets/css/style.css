@@ -92,7 +92,7 @@ footer .row{
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
 }
-#clearButton, #saveButton{
+#clearButton, #savedListButton{
     margin-top: 10px;
     width: 85%;
     background-color: #4CAF50;
