@@ -158,6 +158,18 @@ footer .row{
     width: 100%;
   }
 }
-
+@media screen and (max-width: 380px) {
+    .wrapper {
+      width: 365px;
+    }
+    .container{
+        max-width: 100%;
+    }
+    
+    .container-full{
+      max-width: 100%;
+      width: 100%;
+    }
+  }
 /* End Media CSS */
 
